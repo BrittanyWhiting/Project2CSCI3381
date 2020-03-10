@@ -1,3 +1,7 @@
+// Brittany Whiting
+// CSCI 3381 JAVA OOP
+// Project 2!! 
+
 package project2;
 
 import javax.swing.JPanel;
@@ -35,6 +39,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.TextArea;
 import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 
 public class MainPanel extends JPanel {
@@ -45,13 +50,13 @@ public class MainPanel extends JPanel {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private ImageIcon image;
 	private TextArea patientData;
-	
+	private JCheckBox chckbxHidePatientData;
 	
 	
 	
 	public MainPanel() {
 		setBackground(Color.LIGHT_GRAY);
-		setPreferredSize(new Dimension(800,600));
+		setPreferredSize(new Dimension(800,550));
 		setLayout(null);
 		
 		// new patient collection from data.csv
@@ -70,7 +75,7 @@ public class MainPanel extends JPanel {
 		
 		JLabel lblPatientData = new JLabel("Patient Data: ");
 		lblPatientData.setFont(new Font("Rockwell", Font.PLAIN, 15));
-		lblPatientData.setBounds(383, 211, 104, 21);
+		lblPatientData.setBounds(366, 211, 104, 21);
 		add(lblPatientData);
 		
 	
@@ -78,7 +83,7 @@ public class MainPanel extends JPanel {
 		patientData = new TextArea();
 		patientData.setEditable(false);
 		patientData.setBackground(Color.WHITE);
-		patientData.setBounds(383, 234, 400, 121);
+		patientData.setBounds(366, 238, 424, 121);
 		add(patientData);
 		
 		
@@ -95,6 +100,7 @@ public class MainPanel extends JPanel {
 		add(comboBox);
 		
 	
+		// adds patients from selected file
 		JButton btnAddPatient = new JButton("Add Patients");
 		btnAddPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,6 +122,7 @@ public class MainPanel extends JPanel {
 		add(btnAddPatient);
 		
 		
+		// removes patient selected and deletes from drop down list
 		JButton btnRemovePatients = new JButton("Remove Patient Selected");
 		btnRemovePatients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,6 +141,8 @@ public class MainPanel extends JPanel {
 		lblPatientDataBase.setBounds(305, 29, 190, 21);
 		add(lblPatientDataBase);
 		
+		// save file option, saves to textwrite.csv even if person doesn't close program
+		// at end of code implemented an extra save function just in case user forgets to save
 		JButton btnSaveFile = new JButton("Save File");
 		btnSaveFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,21 +152,40 @@ public class MainPanel extends JPanel {
 		btnSaveFile.setBounds(617, 91, 117, 29);
 		add(btnSaveFile);
 		
+		// lady doctors b/c women in STEM are IMPORTANT! 
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setIcon(new ImageIcon(MainPanel.class.getResource("/project2/clipart-doctor-pocket-8.png")));
-		lblNewLabel.setBounds(593, 403, 190, 178);
+		lblNewLabel.setBounds(28, 329, 190, 178);
 		add(lblNewLabel);
 		
+		// hides patient data, privacy
+		chckbxHidePatientData = new JCheckBox("Hide Patient Data");
+		chckbxHidePatientData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chckbxHidePatientData.isSelected() == true) {
+					patientData.setText("");	
+				}
+				else {
+					Patient myPat = myPats.getPatient((String) comboBox.getSelectedItem());
+					patientData.setText(myPat.toString());	
+				}
+			}
+			
+		});
+		chckbxHidePatientData.setBounds(366, 370, 216, 23);
+		add(chckbxHidePatientData);
+		
+		// dark and light mode for fun b/c why not ?! 
 		JRadioButton rdbtnLightMode = new JRadioButton("Light Mode");
 		buttonGroup.add(rdbtnLightMode);
 		rdbtnLightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnLightMode.isSelected() == true) {
-					
 					setBackground(Color.LIGHT_GRAY);
 					lblPatientDataBase.setForeground(Color.black);
 					lblPatient.setForeground(Color.black);
 					lblPatientData.setForeground(Color.black);
+					chckbxHidePatientData.setForeground(Color.black);
 				}
 			}
 			});
@@ -173,11 +201,14 @@ public class MainPanel extends JPanel {
 					lblPatientDataBase.setForeground(Color.white);
 					lblPatient.setForeground(Color.white);
 					lblPatientData.setForeground(Color.white);
+					chckbxHidePatientData.setForeground(Color.white);
+					
 				}
 			}
 		});
 		rdbtnDarkMode.setBounds(653, 6, 141, 23);
 		add(rdbtnDarkMode);
+		
 		
 		
 		

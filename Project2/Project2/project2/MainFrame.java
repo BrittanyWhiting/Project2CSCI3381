@@ -1,3 +1,7 @@
+// Brittany Whiting
+// CSCI 3381 JAVA OOP
+// Project 2!! 
+
 package project2;
 
 import java.awt.event.WindowAdapter;
